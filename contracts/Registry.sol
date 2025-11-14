@@ -10,8 +10,7 @@ contract Registry {
     // Evento disparado quando um leilão é registrado
     event AuctionRegistered(address indexed auctionAddress, address indexed creator);
 
-    /// @notice Registra um novo leilão
-    /// @dev Pode ser chamado apenas pelo próprio leilão
+    /// Registra um novo leilão
     function registerAuction(address auctionAddress) external {
         require(auctionAddress != address(0), "Invalid address");
         
@@ -19,12 +18,12 @@ contract Registry {
         emit AuctionRegistered(auctionAddress, msg.sender);
     }
 
-    /// @notice Retorna a quantidade total de leilões
+    // Retorna a quantidade total de leilões
     function getAuctionCount() external view returns (uint) {
         return auctions.length;
     }
 
-    /// @notice Retorna o endereço do leilão no índice especificado
+    // Retorna o endereço do leilão no índice especificado
     function getAuction(uint index) external view returns (address) {
         require(index < auctions.length, "Index out of bounds");
         return auctions[index];

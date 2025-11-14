@@ -17,60 +17,67 @@ interface IRegistry {
 // Contrato de Leilão (Off-chain item ou NFT)
 // ─────────────────────────────────────────────────────────────
 
+/// @title Auction - Contrato de leilão de itens off-chain ou de NFTs
 contract Auction {
 
+    // Tipo de leilão - 0: item off chain, 1: NFT
     enum AuctionType { OffChainItem, ERC721Item }
+    AuctionType public auctionType;         
 
-    AuctionType public auctionType;
+    // Endereço do Leiloeiro
+    address payable public beneficiary;     
 
-    address payable public beneficiary;
-    uint public auctionEndTime;
+    // Tempo do término do leilão
+    uint public auctionEndTime;             
 
-    address public highestBidder;
+    // Endereço do maior licitante
+    address public highestBidder; 
+
+    // Valor do maior lance
     uint public highestBid;
+    
+    // Valores a serem sacados (superados pelo maior lance)
+    mapping(address => uint) public pendingReturns; 
 
-    mapping(address => uint) public pendingReturns;
-    bool public ended;
+    // Booleano: leilão terminou ou não
+    bool public ended;                              
 
-    // Item off-chain
-    string public itemDescription;
+    // Nome do item a ser leiloado
+    string public itemName;                 
 
-    // Item NFT
+    // Item NFT on-chain
     IERC721 public nft;
     uint public nftTokenId;
 
-    // Registry
-    IRegistry public registry;
+    // Registry (Hardcoded, centralizado), para encontrar os leilões disponíveis
+    address constant REGISTRY_ADDRESS = 0x31D92593d3F7800fcdEf03E6D47902dE28236C53;
+    IRegistry public registry = IRegistry(REGISTRY_ADDRESS);
 
     event BidPlaced(address indexed bidder, uint amount);
     event Withdrawn(address indexed bidder, uint amount);
     event AuctionEnded(address indexed winner, uint amount);
 
+    // Construtor do contrato
     constructor(
-        uint _biddingTime,
+        uint _biddingTime,              // duração do leilão
         address payable _beneficiary,
         AuctionType _type,
-        string memory _itemDescription,
-        address _nftAddress,      // poderá ser address(0) se for OffChainItem
-        uint _tokenId,            // poderá ser 0 se for OffChainItem
-        address registryAddress
+        string memory _itemName,
+        address _nftAddress,            // address(0) se for OffChainItem
+        uint _tokenId                   // 0 se for OffChainItem
     ) {
-        require(registryAddress != address(0), "Registry required");
-
-        registry = IRegistry(registryAddress);
         beneficiary = _beneficiary;
-        auctionEndTime = block.timestamp + _biddingTime;
+        auctionEndTime = block.timestamp + _biddingTime;    // calculo do tempo
         auctionType = _type;
+        itemName = _itemName;
 
-        if (_type == AuctionType.OffChainItem) {
-            itemDescription = _itemDescription;
-        }
-        else if (_type == AuctionType.ERC721Item) {
+        if (_type == AuctionType.ERC721Item) {
             require(_nftAddress != address(0), "NFT address required");
             nft = IERC721(_nftAddress);
             nftTokenId = _tokenId;
         }
 
+        // Adicionando o leilão ao Registry
         registry.registerAuction(address(this));
     }
 
