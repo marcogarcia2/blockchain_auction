@@ -143,7 +143,7 @@ contract Auction {
         }
     }
 
-    // Getter legado para compatibilidade com o front-end
+    // Getter para compatibilidade com o front-end
     function itemDescription() external view returns (string memory) {
         return description;
     }
