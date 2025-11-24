@@ -1,7 +1,11 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-/// @title Auction Registry - Mantém um registro de todos os leilões criados
+// ─────────────────────────────────────────────────────────────
+// Contrato de Registro de Leilões
+// ─────────────────────────────────────────────────────────────
+
+/// @title Registry - Contrato de Registro, atua como uma lista de leilões
 contract Registry {
     
     // Lista de endereços de todos os leilões criados
@@ -10,7 +14,7 @@ contract Registry {
     // Evento disparado quando um leilão é registrado
     event AuctionRegistered(address indexed auctionAddress, address indexed creator);
 
-    /// Registra um novo leilão
+    // Registra um novo leilão
     function registerAuction(address auctionAddress) external {
         require(auctionAddress != address(0), "Invalid address");
         

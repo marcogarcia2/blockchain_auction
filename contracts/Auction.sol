@@ -45,6 +45,9 @@ contract Auction {
     // Nome do item a ser leiloado
     string public itemName;                 
 
+    // Descrição textual do item a ser leiloado
+    string public description;
+
     // Item NFT on-chain
     IERC721 public nft;
     uint public nftTokenId;
@@ -63,6 +66,7 @@ contract Auction {
         address payable _beneficiary,
         AuctionType _type,
         string memory _itemName,
+        string memory _description,
         address _nftAddress,            // address(0) se for OffChainItem
         uint _tokenId                   // 0 se for OffChainItem
     ) {
@@ -70,6 +74,7 @@ contract Auction {
         auctionEndTime = block.timestamp + _biddingTime;    // calculo do tempo
         auctionType = _type;
         itemName = _itemName;
+        description = _description;
 
         if (_type == AuctionType.ERC721Item) {
             require(_nftAddress != address(0), "NFT address required");
@@ -136,5 +141,10 @@ contract Auction {
         if (auctionType == AuctionType.ERC721Item) {
             nft.safeTransferFrom(beneficiary, highestBidder, nftTokenId);
         }
+    }
+
+    // Getter legado para compatibilidade com o front-end
+    function itemDescription() external view returns (string memory) {
+        return description;
     }
 }
