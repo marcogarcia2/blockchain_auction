@@ -22,6 +22,11 @@
 				"type": "string"
 			},
 			{
+				"internalType": "string",
+				"name": "_description",
+				"type": "string"
+			},
+			{
 				"internalType": "address",
 				"name": "_nftAddress",
 				"type": "address"
@@ -200,6 +205,32 @@
 	{
 		"inputs": [],
 		"name": "itemName",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "description",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "itemDescription",
 		"outputs": [
 			{
 				"internalType": "string",

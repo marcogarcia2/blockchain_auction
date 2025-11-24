@@ -143,7 +143,8 @@ const renderAuctionList = (list: AuctionSummary[]) => {
 
     const addressLabel = document.createElement("p");
     addressLabel.className = "selected-auction";
-    addressLabel.textContent = `Endereço: ${auction.address}`;
+    addressLabel.textContent = `Endereço: ${formatAddress(auction.address)}`;
+    addressLabel.title = auction.address;
 
     const actionButton = document.createElement("button");
     actionButton.type = "button";
@@ -229,7 +230,7 @@ const loadAuctions = async () => {
     const total = typeof totalRaw === "bigint" ? Number(totalRaw) : Number(totalRaw ?? 0);
 
     const items: AuctionSummary[] = [];
-    for (let index = 0; index < total; index += 1) {
+    for (let index = total - 1; index >= 0; index -= 1) {
       const addressRaw = await registry.getAuction(index);
       const normalized = normalizeAddress(addressRaw);
       if (!normalized) {

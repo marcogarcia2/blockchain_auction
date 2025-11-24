@@ -8,7 +8,7 @@ declare global {
   }
 }
 
-export const REGISTRY_ADDRESS = "0x31D92593d3F7800fcdEf03E6D47902dE28236C53";
+export const REGISTRY_ADDRESS = "0x79203e17a70C145AdB25dA6f52B9f1Fba9Bf3834";
 
 export const AUCTION_ABI = auctionAbi as ethers.InterfaceAbi;
 export const REGISTRY_ABI = registryAbi as ethers.InterfaceAbi;

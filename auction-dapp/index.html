@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Auction DApp · Catálogo de Leilões</title>
+  <title>Auction DApp - Leilões</title>
   <link rel="icon" type="image/png" href="/logo.png" />
   <style>
     :root {
@@ -192,7 +192,7 @@
 
     .auction-list {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 1rem;
     }
 
@@ -204,6 +204,10 @@
       display: flex;
       flex-direction: column;
       gap: 0.8rem;
+    }
+
+    .auction-card .btn-primary {
+      margin-top: auto;
     }
 
     .auction-card h3 {
@@ -290,6 +294,16 @@
       .explorer-controls input {
         width: 100%;
       }
+
+      .auction-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 640px) {
+      .auction-list {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
@@ -325,7 +339,7 @@
           <button id="refreshRegistry" class="btn-secondary" type="button">Atualizar lista</button>
         </div>
       </div>
-      <p class="registry-address">Registro configurado: <span id="registryAddressLabel">-</span></p>
+      <!-- <p class="registry-address">Registro configurado: <span id="registryAddressLabel">-</span></p> -->
       <div id="auctionList" class="auction-list"></div>
       <p id="explorerMessage" class="message"></p>
     </section>
